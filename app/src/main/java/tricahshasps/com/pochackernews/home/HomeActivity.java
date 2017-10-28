@@ -50,6 +50,12 @@ public class HomeActivity extends BaseActivity {
         init();
     }
 
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
     private void init() {
         initView();
     }

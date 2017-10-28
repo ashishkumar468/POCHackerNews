@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import java.util.List;
 
@@ -15,11 +16,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import tricahshasps.com.pochackernews.R;
 import tricahshasps.com.pochackernews.application.BaseFragment;
+import tricahshasps.com.pochackernews.home.HomeActivity;
 import tricahshasps.com.pochackernews.home.IStoryContract;
 import tricahshasps.com.pochackernews.home.adapters.StoriesAdapter;
 import tricahshasps.com.pochackernews.home.model.Story;
 import tricahshasps.com.pochackernews.home.presenters.StoriesPresenter;
-import tricahshasps.com.pochackernews.utils.MockUtils;
 
 /**
  * Created by Ashish on 28/10/17.
@@ -30,13 +31,13 @@ public class StoriesFragment extends BaseFragment implements IStoryContract.View
     @BindView(R.id.rv_stories)
     RecyclerView rvStories;
 
+    @BindView(R.id.pb_stories)
+    ProgressBar pbStories;
+
 
     private String storyType;
 
     private StoriesAdapter adapter;
-
-
-    List<Story> stories;
 
     private StoriesPresenter presenter;
 
@@ -97,9 +98,7 @@ public class StoriesFragment extends BaseFragment implements IStoryContract.View
     }
 
     private void initData() {
-        List<Story> stories = MockUtils.getStories();
-        adapter.setItems(stories);
-
+        showFetchingState();
         presenter.getStories(storyType);
     }
 
@@ -118,11 +117,31 @@ public class StoriesFragment extends BaseFragment implements IStoryContract.View
     @Override
     public void showStories(List<Story> stories) {
         adapter.setItems(stories);
+        showFetchedState();
     }
 
     @Override
     public void showStory(Story story) {
         story.setFetched(true);
         adapter.setStory(story);
+    }
+
+    @Override
+    public void showFetchingState() {
+        pbStories.setVisibility(View.VISIBLE);
+        rvStories.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showFetchedState() {
+        pbStories.setVisibility(View.GONE);
+        rvStories.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void showFailureState(String message) {
+        pbStories.setVisibility(View.GONE);
+        rvStories.setVisibility(View.GONE);
+        ((HomeActivity) getContext()).showMessage(message, R.color.color_error);
     }
 }

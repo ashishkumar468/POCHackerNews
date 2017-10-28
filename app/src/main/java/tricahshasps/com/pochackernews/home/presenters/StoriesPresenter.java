@@ -75,7 +75,7 @@ public class StoriesPresenter implements BasePresenter<IStoryContract.View>, ISt
 
             @Override
             public void onCancelled(FirebaseError firebaseError) {
-
+                view.showFailureState(firebaseError.getMessage());
             }
 
 

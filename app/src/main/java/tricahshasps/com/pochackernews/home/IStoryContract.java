@@ -13,6 +13,12 @@ public interface IStoryContract {
         void showStories(List<Story> stories);
 
         void showStory(Story story);
+
+        void showFetchingState();
+
+        void showFetchedState();
+
+        void showFailureState(String message);
     }
 
     public interface Presenter {

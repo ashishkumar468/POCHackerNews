@@ -17,6 +17,7 @@ import tricahshasps.com.pochackernews.R;
 import tricahshasps.com.pochackernews.home.HomeActivity;
 import tricahshasps.com.pochackernews.home.StoryDetailsActivity;
 import tricahshasps.com.pochackernews.home.model.Story;
+import tricahshasps.com.pochackernews.utils.DateUtils;
 
 /**
  * Created by Ashish on 28/10/17.
@@ -108,13 +109,12 @@ public class StoriesAdapter extends RecyclerView.Adapter<StoriesAdapter.StoriesV
                 tvTitle.setText(story.getTitle());
                 tvNumberOfComments.setText(context.getString(R.string.number_of_comments, story.getNumberOfComments()));
                 tvNumberOfUpVotes.setText(context.getString(R.string.number_of_upvotes, story.getNumberOfUpvotes()));
-                // TODO: 28/10/17 Change timestamp to human readable date
-                tvTimestamp.setText(story.getTime() + "");
+                tvTimestamp.setText(DateUtils.getHumanReadableDate(story.getTime()));
                 tvAuthorName.setText(context.getString(R.string.author_name, story.getAuthorName()));
                 llContainerStory.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        //As there is nothing left to fetch more from thi, lets pass the story object itself
+                        //As there is nothing left to fetch more from this, lets pass the story object itself
                         context.startActivity(StoryDetailsActivity.newIntent(((HomeActivity) context), story));
                     }
                 });
