@@ -120,16 +120,16 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
                 tvTimestamp.setText(comment.getTime() + "");
                 tvAuthorName.setText(context.getString(R.string.author_name, comment.getAuthorName()));
                 if (!comment.isKidAdded()) {
-                    comments.addAll(position + 1, comment.getKids());
                     Handler handler = new Handler();
                     final Runnable r = new Runnable() {
                         public void run() {
-                            notifyItemRangeInserted(position + 1, comment.getKids().size());
+                            comments.addAll(position + 1, comment.getKids());
+                            notifyItemRangeInserted(position + 1, comment.getKids().size() - 1);
                             comment.setIsKidAdded(true);
                         }
                     };
 
-                    handler.post(r);
+                    handler.postAtFrontOfQueue(r);
 
 
                 }

@@ -26,7 +26,7 @@ import tricahshasps.com.pochackernews.home.presenters.CommentsPresenter;
 public class
 CommentsFragment extends BaseFragment implements ICommentsContract.View {
 
-    @BindView(R.id.rv_commenets)
+    @BindView(R.id.rv_comments)
     RecyclerView rvComments;
 
     private CommentsAdapter adapter;

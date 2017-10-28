@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -37,7 +39,12 @@ public class StoryDetailsActivity extends BaseActivity implements IStoryDetailsC
     @BindView(R.id.fl_container_comments)
     FrameLayout flContainerComments;
 
+    @BindView(R.id.bottom_sheet)
+    View botomSheet;
+
     private Story story;
+
+    private BottomSheetBehavior<View> bottomSheetBeahviour;
 
     public static Intent newIntent(Activity activity, Story story) {
         Intent intent = new Intent(activity, StoryDetailsActivity.class);
@@ -61,6 +68,12 @@ public class StoryDetailsActivity extends BaseActivity implements IStoryDetailsC
         initWebView();
         initData();
         showCompleteData();
+        initBottomSheetBehaviour();
+    }
+
+    private void initBottomSheetBehaviour() {
+        bottomSheetBeahviour = BottomSheetBehavior.from(botomSheet);
+        bottomSheetBeahviour.setPeekHeight(30);
     }
 
     private void showCompleteData() {
