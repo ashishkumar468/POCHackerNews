@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">POCHackerNews</string>
+    <string name="hint_username">Enter username here</string>
+    <string name="hint_password">Enter password here</string>
+    <string name="create_account">Create Account</string>
+    <string name="login">Login</string>
+</resources>

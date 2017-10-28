@@ -1,0 +1,53 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 26
+    buildToolsVersion "26.0.2"
+    defaultConfig {
+        applicationId "tricahshasps.com.pochackernews"
+        minSdkVersion 21
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    Map<String, String> dependencies = rootProject.ext.dependencies;
+
+    compile dependencies.appCompat
+    compile dependencies.support
+    compile dependencies.design
+    compile dependencies.cardView
+    compile dependencies.recyclerView
+
+    //comm framework start
+    compile dependencies.retrofit
+    compile dependencies.otto
+    compile dependencies.okhttp
+    compile dependencies.gson
+    //comm framework end
+
+    compile dependencies.butterknife
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+
+    testCompile dependencies.jUnit
+    testCompile dependencies.mockito
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2')
+    androidTestCompile('com.android.support.test.espresso:espresso-contrib:2.2') {
+        exclude group: 'com.android.support', module: 'appcompat'
+        exclude group: 'com.android.support', module: 'support-v4'
+        exclude module: 'recyclerview-v7'
+    }
+    androidTestCompile 'com.android.support.test:runner:0.3'
+}
