@@ -14,4 +14,5 @@
     <string name="number_of_comments">Comments : %d</string>
     <string name="number_of_upvotes">Upvotes : %d</string>
     <string name="author_name">Author name: %s</string>
+    <string name="title_story_detail_activity">Story Detail</string>
 </resources>

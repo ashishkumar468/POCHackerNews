@@ -14,6 +14,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import tricahshasps.com.pochackernews.R;
+import tricahshasps.com.pochackernews.home.HomeActivity;
+import tricahshasps.com.pochackernews.home.StoryDetailsActivity;
 import tricahshasps.com.pochackernews.home.model.Story;
 
 /**
@@ -106,13 +108,14 @@ public class StoriesAdapter extends RecyclerView.Adapter<StoriesAdapter.StoriesV
                 tvTitle.setText(story.getTitle());
                 tvNumberOfComments.setText(context.getString(R.string.number_of_comments, story.getNumberOfComments()));
                 tvNumberOfUpVotes.setText(context.getString(R.string.number_of_upvotes, story.getNumberOfUpvotes()));
-                // TODO: 28/10/17 Change timesatmp to human readable date
+                // TODO: 28/10/17 Change timestamp to human readable date
                 tvTimestamp.setText(story.getTime() + "");
-                tvAuthorName.setText(context.getString(R.string.author_name,story.getAuthorName()));
+                tvAuthorName.setText(context.getString(R.string.author_name, story.getAuthorName()));
                 llContainerStory.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-//                    context.startActivity(StoryDetailsActivity.newIntent(story.getId()));
+                        //As there is nothing left to fetch more from thi, lets pass the story object itself
+                        context.startActivity(StoryDetailsActivity.newIntent(((HomeActivity) context), story));
                     }
                 });
             }

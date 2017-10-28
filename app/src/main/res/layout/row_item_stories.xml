@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_container_story"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/margin"
-    android:orientation="vertical"
     android:minHeight="@dimen/min_height_data_row_item"
-    android:id="@+id/ll_container_story">
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/tv_title"
@@ -16,40 +16,44 @@
         tools:text="Story title" />
 
     <LinearLayout
-        android:layout_weight="2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_weight="2"
         android:orientation="horizontal">
+
         <TextView
-            android:layout_weight="1"
             android:id="@+id/tv_number_of_comments"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:padding="@dimen/default_text_view_padding"
             tools:text="Number of comments" />
 
         <TextView
-            android:layout_weight="1"
             android:id="@+id/tv_number_of_upvotes"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:padding="@dimen/default_text_view_padding"
             tools:text="Number of upvotes" />
     </LinearLayout>
 
     <TextView
-        android:padding="@dimen/default_text_view_padding"
         android:id="@+id/tv_author_name"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:padding="@dimen/default_text_view_padding" />
 
     <TextView
-        android:padding="@dimen/default_text_view_padding"
         android:id="@+id/tv_timestamp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:padding="@dimen/default_text_view_padding" />
 
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorPrimary"></View>
 
 
 </LinearLayout>

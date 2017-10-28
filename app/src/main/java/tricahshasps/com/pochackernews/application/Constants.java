@@ -23,5 +23,7 @@ public class Constants {
 
     public class BUNDLE_KEYS {
         public static final String STORY_ID = "storyId";
+        public static final String STORY = "story";
+        public static final String STORY_BUNDLE = "storyBundle";
     }
 }
