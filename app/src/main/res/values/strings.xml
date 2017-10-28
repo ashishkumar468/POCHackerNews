@@ -11,4 +11,7 @@
     <string name="title_top_stories">Top Stories</string>
     <string name="title_new_stories">New Stories</string>
     <string name="title_best_stories">Best Stories</string>
+    <string name="number_of_comments">Comments : %d</string>
+    <string name="number_of_upvotes">Upvotes : %d</string>
+    <string name="author_name">Author name: %s</string>
 </resources>

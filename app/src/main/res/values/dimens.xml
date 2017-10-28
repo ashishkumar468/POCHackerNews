@@ -5,4 +5,5 @@
     <dimen name="margin">10dp</dimen>
     <dimen name="margin_rv_default">10dp</dimen>
     <dimen name="default_text_view_padding">2dp</dimen>
+    <dimen name="min_height_data_row_item">40dp</dimen>
 </resources>

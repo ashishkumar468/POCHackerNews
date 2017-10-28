@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "279164370861",
+    "firebase_url": "https://pochackernews.firebaseio.com",
+    "project_id": "pochackernews",
+    "storage_bucket": "pochackernews.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:279164370861:android:146cd666f09ba4af",
+        "android_client_info": {
+          "package_name": "tricahshasps.com.pochackernews"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "279164370861-ih9mtolkabmc584cif5lhrkdg6pf6fq8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "tricahshasps.com.pochackernews",
+            "certificate_hash": "e03ec887816db573ac3578315cf3dd61253faed7"
+          }
+        },
+        {
+          "client_id": "279164370861-qhu284p4ihhmlt45caad0brue1dcjot3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDjfA7jw4KQ3ysJ9KDLR3dg3KphIqFxtx4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "279164370861-qhu284p4ihhmlt45caad0brue1dcjot3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

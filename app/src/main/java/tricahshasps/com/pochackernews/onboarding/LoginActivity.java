@@ -8,6 +8,11 @@ import android.support.v7.widget.Toolbar;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -125,6 +130,22 @@ public class LoginActivity extends BaseActivity implements ILoginContract.View {
         }
 
         login();*/
+        Firebase.setAndroidContext(this);
+        Firebase firebase = new Firebase("https://hacker-news.firebaseio.com/v0");
+        firebase.child("item/15573928").addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            snapshot.getKey();
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(FirebaseError firebaseError) {
+
+                    }
+                });
         onLoginSuccessful(new User());
     }
 }

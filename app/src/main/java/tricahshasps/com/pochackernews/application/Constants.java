@@ -20,4 +20,8 @@ public class Constants {
         public static final int STORY = 1;
         public static final int DEAFULT = 2;
     }
+
+    public class BUNDLE_KEYS {
+        public static final String STORY_ID = "storyId";
+    }
 }

@@ -15,25 +15,21 @@ public class MockUtils {
         List<Story> stories = new ArrayList<>();
         Story story1 = new Story();
         story1.setId(1);
-        story1.setNumberOfComments(2);
         story1.setNumberOfUpvotes(5);
         story1.setTitle("Title 1");
 
         Story story2 = new Story();
         story2.setId(1);
-        story2.setNumberOfComments(4);
         story2.setNumberOfUpvotes(6);
         story2.setTitle("Title 2");
 
         Story story3 = new Story();
         story3.setId(1);
-        story3.setNumberOfComments(6);
         story3.setNumberOfUpvotes(5);
         story3.setTitle("Title 3");
 
         Story story4 = new Story();
         story4.setId(1);
-        story4.setNumberOfComments(2);
         story4.setNumberOfUpvotes(5);
         story4.setTitle("Title 4");
 

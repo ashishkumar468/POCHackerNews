@@ -2,12 +2,8 @@ package tricahshasps.com.pochackernews.application;
 
 import android.app.Application;
 import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.graphics.Typeface;
-import android.text.TextUtils;
 
+import com.firebase.client.Firebase;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 
@@ -22,6 +18,8 @@ public class App extends Application {
 
     private RefWatcher refWatcher;
     private static Context context;
+
+    private static Firebase firebaseClientRef;
 
     public static RefWatcher getRefWatcher(Context context) {
         App application = (App) context.getApplicationContext();
@@ -49,7 +47,15 @@ public class App extends Application {
     }
 
     private void init() {
-        // TODO: 28/10/17
+        initFirebaseClient();
     }
 
+    private void initFirebaseClient() {
+        Firebase.setAndroidContext(this);
+        firebaseClientRef=new Firebase(ApiConstants.FIREBASE_BASE_URL);
+    }
+
+    public  static Firebase getFirebaseClientRef() {
+        return firebaseClientRef;
+    }
 }

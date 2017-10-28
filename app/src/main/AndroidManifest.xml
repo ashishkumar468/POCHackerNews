@@ -2,6 +2,7 @@
     package="tricahshasps.com.pochackernews">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".application.App"
@@ -17,6 +18,12 @@
             android:name=".onboarding.LoginActivity"
             android:screenOrientation="portrait">
 
+
+        </activity>
+
+        <activity
+            android:name=".home.HomeActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"></action>
                 <category android:name="android.intent.category.LAUNCHER"></category>
@@ -24,7 +31,7 @@
         </activity>
 
         <activity
-            android:name=".home.HomeActivity"
+            android:name=".home.StoryDetailsActivity"
             android:screenOrientation="portrait"></activity>
     </application>
 
