@@ -52,10 +52,12 @@ public class App extends Application {
 
     private void initFirebaseClient() {
         Firebase.setAndroidContext(this);
-        firebaseClientRef=new Firebase(ApiConstants.FIREBASE_BASE_URL);
+        Firebase.getDefaultConfig().setPersistenceEnabled(true);
+        firebaseClientRef = new Firebase(ApiConstants.FIREBASE_BASE_URL);
+        firebaseClientRef.keepSynced(true);
     }
 
-    public  static Firebase getFirebaseClientRef() {
+    public static Firebase getFirebaseClientRef() {
         return firebaseClientRef;
     }
 }

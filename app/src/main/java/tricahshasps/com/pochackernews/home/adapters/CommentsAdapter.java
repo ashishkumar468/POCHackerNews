@@ -2,10 +2,12 @@ package tricahshasps.com.pochackernews.home.adapters;
 
 import android.content.Context;
 import android.os.Handler;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -16,6 +18,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import tricahshasps.com.pochackernews.R;
 import tricahshasps.com.pochackernews.home.model.Story;
+import tricahshasps.com.pochackernews.utils.Logger;
 
 /**
  * Created by Ashish on 28/10/17.
@@ -74,6 +77,9 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
+        @BindView(R.id.cv_container_comments)
+        CardView cvContainerComments;
+
         @BindView(R.id.ll_container_comment)
         LinearLayout llContainerComment;
 
@@ -99,7 +105,14 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
 
         public void init(final int position) {
             final Story comment = comments.get(position);
+           /* CardView.LayoutParams layoutParams = new CardView.LayoutParams(
+                    CardView.LayoutParams.MATCH_PARENT, CardView.LayoutParams.WRAP_CONTENT);
+            layoutParams.setMargins(50 * comment.getLevel() + 10, 0, 0, 0);
+            cvContainerComments.setLayoutParams(layoutParams);
+            Logger.logError("Setting margin " + 10 * comment.getLevel() + 10);*/
+
             if (comment.isFetched()) {
+
                 tvTitle.setText(comment.getTitle());
                 tvNumberOfComments.setText(context.getString(R.string.number_of_comments, comment.getNumberOfComments()));
                 tvNumberOfUpVotes.setText(context.getString(R.string.number_of_upvotes, comment.getNumberOfUpvotes()));

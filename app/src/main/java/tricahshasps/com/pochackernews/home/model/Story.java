@@ -3,7 +3,6 @@ package tricahshasps.com.pochackernews.home.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
@@ -33,6 +32,8 @@ public class Story implements Parcelable {
     private String type;
     @SerializedName("url")
     private String url;
+
+    private int level;
 
     private boolean isFetched = false;
     private boolean isKidAdded;
@@ -91,14 +92,13 @@ public class Story implements Parcelable {
 
     public List<Story> getKids() {
         List<Story> comments = new ArrayList<>();
-        // TODO: 28/10/17 find a better way to write this
-        if (kids == null || kids.size() == 0) {
-            return comments;
-        }
-        for (Long kid : kids) {
-            Story comment = new Story();
-            comment.setId(kid);
-            comments.add(comment);
+        if (kids != null) {
+            for (Long kid : kids) {
+                Story comment = new Story();
+                comment.setLevel(this.level + 1);
+                comment.setId(kid);
+                comments.add(comment);
+            }
         }
         return comments;
     }
@@ -111,6 +111,13 @@ public class Story implements Parcelable {
         return isKidAdded;
     }
 
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
 
     @Override
     public int describeContents() {
@@ -128,6 +135,7 @@ public class Story implements Parcelable {
         dest.writeLong(this.time);
         dest.writeString(this.type);
         dest.writeString(this.url);
+        dest.writeInt(this.level);
         dest.writeByte(this.isFetched ? (byte) 1 : (byte) 0);
         dest.writeByte(this.isKidAdded ? (byte) 1 : (byte) 0);
     }
@@ -146,6 +154,7 @@ public class Story implements Parcelable {
         this.time = in.readLong();
         this.type = in.readString();
         this.url = in.readString();
+        this.level = in.readInt();
         this.isFetched = in.readByte() != 0;
         this.isKidAdded = in.readByte() != 0;
     }

@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 
 import butterknife.BindView;
@@ -86,6 +87,12 @@ public class StoryDetailsActivity extends BaseActivity implements IStoryDetailsC
     private void initWebView() {
         WebSettings webSettings = wvStory.getSettings();
         webSettings.setJavaScriptEnabled(true);
+        wvStory.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                return false;
+            }
+        });
     }
 
     private void initPresenter() {
