@@ -1,6 +1,7 @@
 package tricahshasps.com.pochackernews.home.adapters;
 
 import android.content.Context;
+import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,6 +40,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
         notifyDataSetChanged();
     }
 
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_item_comment, parent, false);
@@ -62,12 +64,12 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
         for (Story comment : comments) {
             if (comment.getId() == commentData.getId()) {
                 comments.set(i, commentData);
-                notifyItemChanged(i);
-                i++;
                 break;
 
             }
+            i++;
         }
+        notifyItemChanged(i);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -95,8 +97,8 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
             ButterKnife.bind(this, itemView);
         }
 
-        public void init(int position) {
-            Story comment = comments.get(position);
+        public void init(final int position) {
+            final Story comment = comments.get(position);
             if (comment.isFetched()) {
                 tvTitle.setText(comment.getTitle());
                 tvNumberOfComments.setText(context.getString(R.string.number_of_comments, comment.getNumberOfComments()));
@@ -104,6 +106,20 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
                 // TODO: 28/10/17 Change timestamp to human readable date
                 tvTimestamp.setText(comment.getTime() + "");
                 tvAuthorName.setText(context.getString(R.string.author_name, comment.getAuthorName()));
+                if (!comment.isKidAdded()) {
+                    comments.addAll(position + 1, comment.getKids());
+                    Handler handler = new Handler();
+                    final Runnable r = new Runnable() {
+                        public void run() {
+                            notifyItemRangeInserted(position + 1, comment.getKids().size());
+                            comment.setIsKidAdded(true);
+                        }
+                    };
+
+                    handler.post(r);
+
+
+                }
             } else {
                 callback.fetchComment(comment.getId());
             }

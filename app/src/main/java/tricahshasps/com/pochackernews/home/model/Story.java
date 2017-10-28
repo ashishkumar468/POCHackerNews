@@ -35,6 +35,7 @@ public class Story implements Parcelable {
     private String url;
 
     private boolean isFetched = false;
+    private boolean isKidAdded;
 
 
     public long getId() {
@@ -90,6 +91,10 @@ public class Story implements Parcelable {
 
     public List<Story> getKids() {
         List<Story> comments = new ArrayList<>();
+        // TODO: 28/10/17 find a better way to write this
+        if (kids == null || kids.size() == 0) {
+            return comments;
+        }
         for (Long kid : kids) {
             Story comment = new Story();
             comment.setId(kid);
@@ -97,6 +102,15 @@ public class Story implements Parcelable {
         }
         return comments;
     }
+
+    public void setIsKidAdded(boolean isKidAdded) {
+        this.isKidAdded = isKidAdded;
+    }
+
+    public boolean isKidAdded() {
+        return isKidAdded;
+    }
+
 
     @Override
     public int describeContents() {
@@ -115,6 +129,7 @@ public class Story implements Parcelable {
         dest.writeString(this.type);
         dest.writeString(this.url);
         dest.writeByte(this.isFetched ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.isKidAdded ? (byte) 1 : (byte) 0);
     }
 
     public Story() {
@@ -132,6 +147,7 @@ public class Story implements Parcelable {
         this.type = in.readString();
         this.url = in.readString();
         this.isFetched = in.readByte() != 0;
+        this.isKidAdded = in.readByte() != 0;
     }
 
     public static final Creator<Story> CREATOR = new Creator<Story>() {
