@@ -13,7 +13,7 @@ import java.util.List;
  * Created by Ashish on 28/10/17.
  */
 
-public class Story implements Parcelable{
+public class Story implements Parcelable {
     @SerializedName("id")
     private long id;
     @SerializedName("title")
@@ -86,6 +86,16 @@ public class Story implements Parcelable{
 
     public String getUrl() {
         return url;
+    }
+
+    public List<Story> getKids() {
+        List<Story> comments = new ArrayList<>();
+        for (Long kid : kids) {
+            Story comment = new Story();
+            comment.setId(kid);
+            comments.add(comment);
+        }
+        return comments;
     }
 
     @Override

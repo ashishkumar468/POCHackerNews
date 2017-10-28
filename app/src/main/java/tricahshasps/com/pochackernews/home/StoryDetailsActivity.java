@@ -7,12 +7,14 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.widget.FrameLayout;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import tricahshasps.com.pochackernews.R;
 import tricahshasps.com.pochackernews.application.BaseActivity;
 import tricahshasps.com.pochackernews.application.Constants;
+import tricahshasps.com.pochackernews.home.fragments.CommentsFragment;
 import tricahshasps.com.pochackernews.home.model.Comment;
 import tricahshasps.com.pochackernews.home.model.Story;
 
@@ -30,6 +32,9 @@ public class StoryDetailsActivity extends BaseActivity implements IStoryDetailsC
 
     @BindView(R.id.wv_story)
     WebView wvStory;
+
+    @BindView(R.id.fl_container_comments)
+    FrameLayout flContainerComments;
 
     private Story story;
 
@@ -63,7 +68,9 @@ public class StoryDetailsActivity extends BaseActivity implements IStoryDetailsC
     }
 
     private void prepareCommentsView() {
-
+        CommentsFragment commentsFragment = CommentsFragment.getInstance(story.getKids());
+        getSupportFragmentManager().beginTransaction()
+                .add(flContainerComments.getId(), commentsFragment).commit();
     }
 
     private void initData() {
