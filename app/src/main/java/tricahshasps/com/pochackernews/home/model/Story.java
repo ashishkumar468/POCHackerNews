@@ -170,4 +170,9 @@ public class Story implements Parcelable {
             return new Story[size];
         }
     };
+
+    @Override
+    public boolean equals(Object obj) {
+        return this.getId() == ((Story) obj).getId();
+    }
 }
