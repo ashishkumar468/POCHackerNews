@@ -69,6 +69,12 @@ public class StoryDetailsActivity extends BaseActivity implements IStoryDetailsC
         init();
     }
 
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
     private void init() {
         initPresenter();
         initWebView();

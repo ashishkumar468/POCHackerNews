@@ -36,7 +36,8 @@ public class BaseActivity extends AppCompatActivity implements IBaseView {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(getString(titleResourceId));
         this.toolbar = toolbar;
-        toolbar.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 }
 
