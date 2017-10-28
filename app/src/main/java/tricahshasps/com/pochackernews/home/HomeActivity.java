@@ -17,7 +17,7 @@ import tricahshasps.com.pochackernews.R;
 import tricahshasps.com.pochackernews.application.BaseActivity;
 import tricahshasps.com.pochackernews.application.Constants;
 import tricahshasps.com.pochackernews.home.adapters.HomeViewPagerAdapter;
-import tricahshasps.com.pochackernews.home.adapters.view.utils.HomeViewTab;
+import tricahshasps.com.pochackernews.home.utils.HomeViewTab;
 import tricahshasps.com.pochackernews.home.fragments.StoriesFragment;
 
 /**
@@ -61,10 +61,12 @@ public class HomeActivity extends BaseActivity {
     private void initViewPager() {
         adapter = new HomeViewPagerAdapter(getSupportFragmentManager());
         adapter.setHomeViewTabs(getHomeViewTabs());
+        vpHome.setAdapter(adapter);
         tlHome.setupWithViewPager(vpHome);
     }
 
     private List<HomeViewTab> getHomeViewTabs() {
+        //Gives the ability to dynamically update the number of tabs in home screen
         List<HomeViewTab> homeViewTabs = new ArrayList<>();
         HomeViewTab tabTopStories = new HomeViewTab(StoriesFragment.getInstance(Constants.FragmentsTags.TOP_STORIES), getString(R.string.title_top_stories));
         HomeViewTab tabNewStories = new HomeViewTab(StoriesFragment.getInstance(Constants.FragmentsTags.NEW_STORIES), getString(R.string.title_new_stories));

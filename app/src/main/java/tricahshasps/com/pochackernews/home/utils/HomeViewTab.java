@@ -1,4 +1,4 @@
-package tricahshasps.com.pochackernews.home.adapters.view.utils;
+package tricahshasps.com.pochackernews.home.utils;
 
 import android.support.v4.app.Fragment;
 

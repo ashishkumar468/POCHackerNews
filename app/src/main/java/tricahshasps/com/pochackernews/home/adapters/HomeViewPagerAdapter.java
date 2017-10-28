@@ -7,7 +7,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-import tricahshasps.com.pochackernews.home.adapters.view.utils.HomeViewTab;
+import tricahshasps.com.pochackernews.home.utils.HomeViewTab;
 
 /**
  * Created by Ashish on 28/10/17.

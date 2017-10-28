@@ -15,4 +15,9 @@ public class Constants {
         public static final String NEW_STORIES = "NEW_STORIES";
         public static final String BEST_STORIES = "BEST_STORIES";
     }
+
+    public class ITEM_TYPE {
+        public static final int STORY = 1;
+        public static final int DEAFULT = 2;
+    }
 }
