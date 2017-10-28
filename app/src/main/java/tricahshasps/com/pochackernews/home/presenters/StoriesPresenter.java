@@ -15,6 +15,7 @@ import tricahshasps.com.pochackernews.application.BasePresenter;
 import tricahshasps.com.pochackernews.application.Constants;
 import tricahshasps.com.pochackernews.home.IStoryContract;
 import tricahshasps.com.pochackernews.home.model.Story;
+import tricahshasps.com.pochackernews.utils.Logger;
 
 /**
  * Created by Ashish on 28/10/17.
@@ -46,7 +47,7 @@ public class StoriesPresenter implements BasePresenter<IStoryContract.View>, ISt
     }
 
     @Override
-    public void getStories(String tag) {
+    public void getStories(final String tag) {
         switch (tag) {
             case Constants.FragmentsTags.NEW_STORIES:
                 child = firebaseClientRef.child(ApiConstants.STORIES.NEW_STORIES);
@@ -67,6 +68,7 @@ public class StoriesPresenter implements BasePresenter<IStoryContract.View>, ISt
                     story.setId((Long) snapshot.getValue());
                     stories.add(story);
                 }
+                Logger.logError("fetched " + stories.size() + " of type " + tag);
                 if (view != null)
                     view.showStories(stories);
             }

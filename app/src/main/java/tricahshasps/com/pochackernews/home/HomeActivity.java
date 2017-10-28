@@ -62,6 +62,7 @@ public class HomeActivity extends BaseActivity {
         adapter = new HomeViewPagerAdapter(getSupportFragmentManager());
         adapter.setHomeViewTabs(getHomeViewTabs());
         vpHome.setAdapter(adapter);
+        vpHome.setOffscreenPageLimit(2);
         tlHome.setupWithViewPager(vpHome);
     }
 
