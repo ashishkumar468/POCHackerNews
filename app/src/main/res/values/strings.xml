@@ -4,4 +4,11 @@
     <string name="hint_password">Enter password here</string>
     <string name="create_account">Create Account</string>
     <string name="login">Login</string>
+    <string name="title_login_activity">Login</string>
+    <string name="username_required">User name is required</string>
+    <string name="password_required">Password is required</string>
+    <string name="title_home_activity">Home</string>
+    <string name="title_top_stories">Top Stories</string>
+    <string name="title_new_stories">New Stories</string>
+    <string name="title_best_stories">Best Stories</string>
 </resources>
