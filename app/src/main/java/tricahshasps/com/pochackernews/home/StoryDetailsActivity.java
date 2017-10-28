@@ -2,6 +2,7 @@ package tricahshasps.com.pochackernews.home;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetBehavior;
@@ -11,6 +12,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
+import android.widget.ProgressBar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -42,7 +44,11 @@ public class StoryDetailsActivity extends BaseActivity implements IStoryDetailsC
     @BindView(R.id.bottom_sheet)
     View botomSheet;
 
+    @BindView(R.id.progressbar)
+    ProgressBar progressBar;
+
     private Story story;
+
 
     private BottomSheetBehavior<View> bottomSheetBeahviour;
 
@@ -103,7 +109,15 @@ public class StoryDetailsActivity extends BaseActivity implements IStoryDetailsC
         wvStory.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                return false;
+                progressBar.setVisibility(View.VISIBLE);
+                wvStory.loadUrl(url);
+                return true;
+            }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                progressBar.setVisibility(View.GONE);
             }
         });
     }
