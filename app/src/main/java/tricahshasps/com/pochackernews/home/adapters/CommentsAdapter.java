@@ -15,8 +15,10 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import tricahshasps.com.pochackernews.R;
+import tricahshasps.com.pochackernews.application.Constants;
 import tricahshasps.com.pochackernews.home.model.Story;
 import tricahshasps.com.pochackernews.utils.DateUtils;
+import tricahshasps.com.pochackernews.utils.Logger;
 
 /**
  * Created by Ashish on 28/10/17.
@@ -66,7 +68,6 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
             if (comment.getId() == commentData.getId()) {
                 comments.set(i, commentData);
                 break;
-
             }
             i++;
         }
@@ -75,17 +76,11 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        /* @BindView(R.id.cv_container_comments)
-         CardView cvContainerComments;
- */
         @BindView(R.id.ll_container_comment)
         LinearLayout llContainerComment;
 
         @BindView(R.id.tv_title)
         TextView tvTitle;
-
-        @BindView(R.id.tv_number_of_comments)
-        TextView tvNumberOfComments;
 
         @BindView(R.id.tv_number_of_upvotes)
         TextView tvNumberOfUpVotes;
@@ -103,38 +98,44 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
 
         public void init(final int position) {
             final Story comment = comments.get(position);
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            layoutParams.setMargins(comment.getLevel() + 10, 0, 0, 0);
-            llContainerComment.setLayoutParams(layoutParams);
-           /* CardView.LayoutParams layoutParams = new CardView.LayoutParams(
-                    CardView.LayoutParams.MATCH_PARENT, CardView.LayoutParams.WRAP_CONTENT);
-            layoutParams.setMargins(50 * comment.getLevel() + 10, 0, 0, 0);
-            cvContainerComments.setLayoutParams(layoutParams);
-            Logger.logError("Setting margin " + 10 * comment.getLevel() + 10);*/
+            llContainerComment.setPadding(Constants.DEFAULT_PADDING_FOR_COMMENTS * comment.getLevel(), 0, 0, 0);
 
-            if (comment.isFetched()) {
-
-                tvTitle.setText(comment.getTitle());
-                tvNumberOfComments.setText(context.getString(R.string.number_of_comments, comment.getNumberOfComments()));
-                tvNumberOfUpVotes.setText(context.getString(R.string.number_of_upvotes, comment.getNumberOfUpvotes()));
-                tvTimestamp.setText(DateUtils.getHumanReadableDate(comment.getTime()));
-                tvAuthorName.setText(context.getString(R.string.author_name, comment.getAuthorName()));
-                if (!comment.isKidAdded()) {
-                    Handler handler = new Handler();
-                    final Runnable r = new Runnable() {
-                        public void run() {
-                            comments.addAll(position + 1, comment.getKids());
-                            notifyItemRangeInserted(position + 1, comment.getKids().size() - 1);
-                            comment.setIsKidAdded(true);
-                        }
-                    };
-
-                    handler.postAtFrontOfQueue(r);
-
-
-                }
-            } else {
-                callback.fetchComment(comment.getId());
+            switch (comment.getStatus()) {
+                case Constants.ITEM_STATUS.FETCHING:
+                    if (comment.getLevel() > 0) {
+                        Logger.logError("fetching for comment " + comment.getId());
+                    }
+                    llContainerComment.setBackgroundColor(context.getResources().getColor(R.color.color_fetching));
+                    //When Fetching..means we have to fetch data
+                    callback.fetchComment(comment.getId());
+                    break;
+                case Constants.ITEM_STATUS.FETCHED:
+                    llContainerComment.setBackgroundColor(context.getResources().getColor(R.color.color_fetched));
+                    //When comment is fetched..show its data
+                    tvTitle.setText(comment.getTitle());
+                    tvNumberOfUpVotes.setText(context.getString(R.string.number_of_upvotes, comment.getNumberOfUpvotes()));
+                    tvTimestamp.setText(DateUtils.getHumanReadableDate(comment.getTime()));
+                    tvAuthorName.setText(context.getString(R.string.author_name, comment.getAuthorName()));
+                    //To dynamically add comments to the recycler view..if the comments have kids as well and that goes on recursively
+                    if (!comment.isKidAdded() && comment.getKids().size() > 0) {
+                        comment.setIsKidAdded(true);
+                        Handler handler = new Handler();
+                        final Runnable r = new Runnable() {
+                            public void run() {
+                                comments.addAll(position + 1, comment.getKids());
+                                //Setting comments level so in the model class so as to form a branch kind of thing
+                                Logger.logError("Adding kids of level " + comment.getKids().get(0).getLevel());
+                                notifyItemRangeInserted(position + 1, comment.getKids().size() );
+                            }
+                        };
+                        handler.post(r);
+                    }
+                    break;
+                case Constants.ITEM_STATUS.FAILED:
+                    llContainerComment.setBackgroundColor(context.getResources().getColor(R.color.color_failed));
+                    //When failed..lets retry..but yeah let user know that it failed..or user is seeing stale data
+                    callback.fetchComment(comment.getId());
+                    break;
             }
         }
     }

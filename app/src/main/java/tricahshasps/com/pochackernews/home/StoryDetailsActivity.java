@@ -2,7 +2,6 @@ package tricahshasps.com.pochackernews.home;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetBehavior;
@@ -50,7 +49,9 @@ public class StoryDetailsActivity extends BaseActivity implements IStoryDetailsC
     private Story story;
 
 
-    private BottomSheetBehavior<View> bottomSheetBeahviour;
+    private BottomSheetBehavior<View> bottomSheetBehaviour;
+
+    private CommentsFragment commentsFragment;
 
     public static Intent newIntent(Activity activity, Story story) {
         Intent intent = new Intent(activity, StoryDetailsActivity.class);
@@ -65,7 +66,7 @@ public class StoryDetailsActivity extends BaseActivity implements IStoryDetailsC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_story_detail);
         ButterKnife.bind(this);
-        setUpToolbar(toolbar, R.string.title_story_detail_activity); // TODO: 28/10/17 Change title to story detail
+        setUpToolbar(toolbar, R.string.title_story_detail_activity);
         init();
     }
 
@@ -76,25 +77,26 @@ public class StoryDetailsActivity extends BaseActivity implements IStoryDetailsC
     }
 
     private void init() {
+        prepareCommentsView();
+        initBottomSheetBehaviour();
         initPresenter();
         initWebView();
         initData();
         showCompleteData();
-        initBottomSheetBehaviour();
     }
 
     private void initBottomSheetBehaviour() {
-        bottomSheetBeahviour = BottomSheetBehavior.from(botomSheet);
-        bottomSheetBeahviour.setPeekHeight(30);
+        bottomSheetBehaviour = BottomSheetBehavior.from(botomSheet);
+        bottomSheetBehaviour.setPeekHeight(Constants.DEFAULT_BOTTOM_SHEET_PEEK_HEIGHT);
     }
 
     private void showCompleteData() {
         showStory(story);
-        prepareCommentsView();
+        commentsFragment.setComments(story.getKids());
     }
 
     private void prepareCommentsView() {
-        CommentsFragment commentsFragment = CommentsFragment.getInstance(story.getKids());
+        commentsFragment = CommentsFragment.getInstance();
         getSupportFragmentManager().beginTransaction()
                 .add(flContainerComments.getId(), commentsFragment).commit();
     }

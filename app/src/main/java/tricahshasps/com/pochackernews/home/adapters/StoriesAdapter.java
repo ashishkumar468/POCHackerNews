@@ -14,6 +14,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import tricahshasps.com.pochackernews.R;
+import tricahshasps.com.pochackernews.application.Constants;
 import tricahshasps.com.pochackernews.home.HomeActivity;
 import tricahshasps.com.pochackernews.home.StoryDetailsActivity;
 import tricahshasps.com.pochackernews.home.model.Story;
@@ -103,22 +104,36 @@ public class StoriesAdapter extends RecyclerView.Adapter<StoriesAdapter.StoriesV
 
         public void init(int position) {
             final Story story = stories.get(position);
-            if (!story.isFetched()) {
-                callback.fetchStory(stories.get(position).getId());
-            } else {
-                tvTitle.setText(story.getTitle());
-                tvNumberOfComments.setText(context.getString(R.string.number_of_comments, story.getNumberOfComments()));
-                tvNumberOfUpVotes.setText(context.getString(R.string.number_of_upvotes, story.getNumberOfUpvotes()));
-                tvTimestamp.setText(DateUtils.getHumanReadableDate(story.getTime()));
-                tvAuthorName.setText(context.getString(R.string.author_name, story.getAuthorName()));
-                llContainerStory.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        //As there is nothing left to fetch more from this, lets pass the story object itself
+            switch (story.getStatus()) {
+                case Constants.ITEM_STATUS.FETCHING:
+                    llContainerStory.setBackgroundColor(context.getResources().getColor(R.color.color_fetching));
+                    //When Fetching..means we have to fetch data
+                    callback.fetchStory(stories.get(position).getId());
+                    break;
+                case Constants.ITEM_STATUS.FETCHED:
+                    llContainerStory.setBackgroundColor(context.getResources().getColor(R.color.color_fetched));
+                    tvTitle.setText(story.getTitle());
+                    tvNumberOfComments.setText(context.getString(R.string.number_of_comments, story.getNumberOfComments()));
+                    tvNumberOfUpVotes.setText(context.getString(R.string.number_of_upvotes, story.getNumberOfUpvotes()));
+                    tvTimestamp.setText(DateUtils.getHumanReadableDate(story.getTime()));
+                    tvAuthorName.setText(context.getString(R.string.author_name, story.getAuthorName()));
+
+                    break;
+                case Constants.ITEM_STATUS.FAILED:
+                    llContainerStory.setBackgroundColor(context.getResources().getColor(R.color.color_failed));
+                    //When failed..lets retry..but yeah let user know that it failed
+                    callback.fetchStory(stories.get(position).getId());
+                    break;
+            }
+            llContainerStory.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //As there is nothing left to fetch more from this, lets pass the story object itself
+                    if (story.getStatus() == Constants.ITEM_STATUS.FETCHED) {//Let user click only when the story is fetched
                         context.startActivity(StoryDetailsActivity.newIntent(((HomeActivity) context), story));
                     }
-                });
-            }
+                }
+            });
         }
     }
 

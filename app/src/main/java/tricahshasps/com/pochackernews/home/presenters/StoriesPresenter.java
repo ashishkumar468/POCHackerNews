@@ -68,7 +68,6 @@ public class StoriesPresenter implements BasePresenter<IStoryContract.View>, ISt
                     story.setId((Long) snapshot.getValue());
                     stories.add(story);
                 }
-                Logger.logError("fetched " + stories.size() + " of type " + tag);
                 if (view != null)
                     view.showStories(stories);
             }
@@ -83,21 +82,30 @@ public class StoriesPresenter implements BasePresenter<IStoryContract.View>, ISt
     }
 
     @Override
-    public void getStory(long storyId) {
+    public void getStory(final long storyId) {
         firebaseClientRef.child(ApiConstants.STORIES.GET_ITEM + "/" + storyId)
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         String storyString = new Gson().toJson(dataSnapshot.getValue());
                         Story value = new Gson().fromJson(storyString, Story.class);
+                        value.setStatus(Constants.ITEM_STATUS.FETCHED);
                         if (view != null) {
                             view.showStory(value);
+                            Logger.logError(storyString);
                         }
                     }
 
                     @Override
                     public void onCancelled(FirebaseError firebaseError) {
-
+                        //Let ui decide what to do with failed data items, i am just gonna let it know
+                        Story story = new Story();
+                        story.setId(storyId);
+                        story.setStatus(Constants.ITEM_STATUS.FAILED);
+                        if (view != null)
+                            view.showStory(story);
+                        Logger.logError(new Gson().toJson(story));
+                        story = null;
                     }
                 });
     }

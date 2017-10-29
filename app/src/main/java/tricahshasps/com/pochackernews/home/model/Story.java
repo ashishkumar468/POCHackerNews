@@ -8,6 +8,8 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.List;
 
+import tricahshasps.com.pochackernews.application.Constants;
+
 /**
  * Created by Ashish on 28/10/17.
  */
@@ -17,7 +19,8 @@ public class Story implements Parcelable {
     private long id;
     @SerializedName("title")
     private String title = "";
-
+    @SerializedName("text")
+    private String text;
     @SerializedName("by")
     private String authorName;
     @SerializedName("descendants")
@@ -34,9 +37,8 @@ public class Story implements Parcelable {
     private String url;
 
     private int level;
-
-    private boolean isFetched = false;
     private boolean isKidAdded;
+    private int status = Constants.ITEM_STATUS.FETCHING;
 
 
     public long getId() {
@@ -68,14 +70,6 @@ public class Story implements Parcelable {
 
     public void setNumberOfUpvotes(int numberOfUpvotes) {
         this.score = score;
-    }
-
-    public boolean isFetched() {
-        return isFetched;
-    }
-
-    public void setFetched(boolean fetched) {
-        isFetched = fetched;
     }
 
     public long getTime() {
@@ -119,6 +113,28 @@ public class Story implements Parcelable {
         this.level = level;
     }
 
+
+    @Override
+    public boolean equals(Object obj) {
+        return this.getId() == ((Story) obj).getId();
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -128,6 +144,7 @@ public class Story implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeLong(this.id);
         dest.writeString(this.title);
+        dest.writeString(this.text);
         dest.writeString(this.authorName);
         dest.writeLong(this.numberOfDescendants);
         dest.writeList(this.kids);
@@ -136,8 +153,8 @@ public class Story implements Parcelable {
         dest.writeString(this.type);
         dest.writeString(this.url);
         dest.writeInt(this.level);
-        dest.writeByte(this.isFetched ? (byte) 1 : (byte) 0);
         dest.writeByte(this.isKidAdded ? (byte) 1 : (byte) 0);
+        dest.writeInt(this.status);
     }
 
     public Story() {
@@ -146,6 +163,7 @@ public class Story implements Parcelable {
     protected Story(Parcel in) {
         this.id = in.readLong();
         this.title = in.readString();
+        this.text = in.readString();
         this.authorName = in.readString();
         this.numberOfDescendants = in.readLong();
         this.kids = new ArrayList<Long>();
@@ -155,8 +173,8 @@ public class Story implements Parcelable {
         this.type = in.readString();
         this.url = in.readString();
         this.level = in.readInt();
-        this.isFetched = in.readByte() != 0;
         this.isKidAdded = in.readByte() != 0;
+        this.status = in.readInt();
     }
 
     public static final Creator<Story> CREATOR = new Creator<Story>() {
@@ -170,9 +188,4 @@ public class Story implements Parcelable {
             return new Story[size];
         }
     };
-
-    @Override
-    public boolean equals(Object obj) {
-        return this.getId() == ((Story) obj).getId();
-    }
 }

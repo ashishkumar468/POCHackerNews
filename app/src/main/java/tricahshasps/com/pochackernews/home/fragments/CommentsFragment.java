@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -37,14 +38,16 @@ CommentsFragment extends BaseFragment implements ICommentsContract.View {
 
     private static CommentsFragment instance;
 
-    public static CommentsFragment getInstance(List<Story> comments) {
+    public static CommentsFragment getInstance() {
         instance = new CommentsFragment();
-        instance.setComments(comments);
+        instance.setComments(new ArrayList<Story>());
         return instance;
     }
 
     public void setComments(List<Story> comments) {
         this.comments = comments;
+        if (adapter != null)//Cases where adapter has not been initialised yet..and basically the default constructor one
+            adapter.setComments(comments);
     }
 
     @Override
@@ -96,7 +99,6 @@ CommentsFragment extends BaseFragment implements ICommentsContract.View {
 
     @Override
     public void showComment(Story comment) {
-        comment.setFetched(true);
         adapter.setCommentData(comment);
     }
 

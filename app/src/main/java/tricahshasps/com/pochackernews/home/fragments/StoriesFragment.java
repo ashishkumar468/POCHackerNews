@@ -116,13 +116,14 @@ public class StoriesFragment extends BaseFragment implements IStoryContract.View
 
     @Override
     public void showStories(List<Story> stories) {
-        adapter.setItems(stories);
+        //No need of pagination over here..firebase anyways gives data in chunks and the remaining part is handled by the recycler view.
+        //makes call for only those stories which are currently visible
+        adapter.setItems(stories);//Found better to replace rather than iterate and prune to remove the existing ones
         showFetchedState();
     }
 
     @Override
     public void showStory(Story story) {
-        story.setFetched(true);
         adapter.setStory(story);
     }
 

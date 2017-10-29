@@ -6,4 +6,7 @@
     <color name="color_error">#FF4000</color>
     <color name="color_warning">#3F5555</color>
     <color name="color_success">#A9A9A9</color>
+    <color name="color_fetching">#DCEDC8</color>
+    <color name="color_fetched">#FFFFFF</color>
+    <color name="color_failed">#FFCDD2</color>
 </resources>
