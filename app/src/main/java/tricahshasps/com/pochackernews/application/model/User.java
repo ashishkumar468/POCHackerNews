@@ -1,13 +1,20 @@
 package tricahshasps.com.pochackernews.application.model;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by Ashish on 28/10/17.
  */
 
 public class User {
+    @SerializedName("acct")
     private String username;
 
+    @SerializedName("pw")
     private String password;
+
+    @SerializedName("creating")
+    private String creating;
 
     public User() {
     }
@@ -17,21 +24,27 @@ public class User {
         this.password = password;
     }
 
-    public String getPassword() {
-        return password;
+    public void setCreating(String creating) {
+        this.creating = creating;
+    }
+
+    public void setPw(String pw) {
+        this.password = pw;
+    }
+
+    public void setAcct(String acct) {
+        this.username = acct;
     }
 
     public String getUsername() {
         return username;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public String getPassword() {
+        return password;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public String getCreating() {
+        return creating;
     }
-
-
 }

@@ -56,4 +56,6 @@ dependencies {
     }
     androidTestCompile 'com.android.support.test:runner:0.3'
     compile 'com.sothree.slidinguppanel:library:3.4.0'
+    compile 'org.jsoup:jsoup:1.8.1'
+
 }

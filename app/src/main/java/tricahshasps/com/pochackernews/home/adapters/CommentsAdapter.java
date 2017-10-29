@@ -3,6 +3,7 @@ package tricahshasps.com.pochackernews.home.adapters;
 import android.content.Context;
 import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -112,7 +113,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
                 case Constants.ITEM_STATUS.FETCHED:
                     llContainerComment.setBackgroundColor(context.getResources().getColor(R.color.color_fetched));
                     //When comment is fetched..show its data
-                    tvTitle.setText(comment.getText());
+                    tvTitle.setText(Html.fromHtml(comment.getText()));
                     tvNumberOfUpVotes.setText(context.getString(R.string.number_of_upvotes, comment.getNumberOfUpvotes()));
                     tvTimestamp.setText(DateUtils.getHumanReadableDate(comment.getTime()));
                     tvAuthorName.setText(context.getString(R.string.author_name, comment.getAuthorName()));

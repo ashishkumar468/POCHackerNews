@@ -17,4 +17,6 @@
     <string name="title_story_detail_activity">Story Detail</string>
     <string name="comments">Comments</string>
     <string name="no_internet_connection_serving_with_local_data">No internet..serving local data</string>
+    <string name="no_internet_connection">No internet connection</string>
+    <string name="login_sucessfull">Logged in succesfully</string>
 </resources>

@@ -141,7 +141,7 @@ public class StoriesPresenter implements BasePresenter<IStoryContract.View>, ISt
                                     public void run() {
                                         if (view != null)
                                             view.showStory(story);
-                                        Logger.logError(new Gson().toJson(story));
+                                        Logger.logError("Failed to fetch" + new Gson().toJson(story));
                                         story = null;
                                     }
                                 });

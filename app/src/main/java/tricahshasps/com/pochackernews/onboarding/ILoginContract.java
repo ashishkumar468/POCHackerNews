@@ -1,5 +1,8 @@
 package tricahshasps.com.pochackernews.onboarding;
 
+import android.content.Context;
+
+import tricahshasps.com.pochackernews.application.MvpView;
 import tricahshasps.com.pochackernews.application.model.User;
 
 /**
@@ -7,18 +10,23 @@ import tricahshasps.com.pochackernews.application.model.User;
  */
 
 interface ILoginContract {
-    interface View {
+    interface View extends MvpView {
         void login();
 
         void createAccount();
 
         void onLoginSuccessful(User user);
 
-        void onLoginFailed(String message);
+        void showMessage(String message, int colourResourceId);
+
+        void showProgress();
+
+        void hideProgress();
     }
 
     interface Presenter {
         void login(User user);
+
         void createAccount(User user);
     }
 }

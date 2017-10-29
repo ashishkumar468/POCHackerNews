@@ -1,25 +1,26 @@
 package tricahshasps.com.pochackernews.onboarding;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
+import android.support.v7.widget.ShareActionProvider;
 import android.support.v7.widget.Toolbar;
 import android.widget.Button;
 import android.widget.EditText;
-
-import com.firebase.client.DataSnapshot;
-import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
-import com.firebase.client.ValueEventListener;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import tricahshasps.com.pochackernews.R;
 import tricahshasps.com.pochackernews.application.BaseActivity;
+import tricahshasps.com.pochackernews.application.Constants;
 import tricahshasps.com.pochackernews.application.model.User;
 import tricahshasps.com.pochackernews.home.HomeActivity;
+import tricahshasps.com.pochackernews.utils.SharedPreferenceUtils;
 
 /**
  * Created by Ashish on 28/10/17.
@@ -51,6 +52,13 @@ public class LoginActivity extends BaseActivity implements ILoginContract.View {
     LoginPresenter presenter;
     private User user;
 
+    private ProgressDialog progressDialog;
+
+    public static Intent newIntent(Activity activity) {
+        Intent intent = new Intent(activity, LoginActivity.class);
+        return intent;
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,8 +81,13 @@ public class LoginActivity extends BaseActivity implements ILoginContract.View {
     }
 
     private void init() {
+        initProgressDialog();
         initUser();
         initPresenter();
+    }
+
+    private void initProgressDialog() {
+        progressDialog = new ProgressDialog(this);
     }
 
     private void initUser() {
@@ -87,28 +100,58 @@ public class LoginActivity extends BaseActivity implements ILoginContract.View {
 
     @Override
     public void login() {
-        user.setUsername(etUsername.getText().toString());
-        user.setPassword(etPassword.getText().toString());
+        if (!validate()) {
+            return;
+        }
+        user.setAcct(etUsername.getText().toString());
+        user.setPw(etPassword.getText().toString());
+        user.setCreating(null);
         presenter.login(user);
     }
 
     @Override
-    public void createAccount() {
+    public void showProgress() {
+        if (!progressDialog.isShowing()) {
+            progressDialog.show();
+        }
+    }
 
+    @Override
+    public void hideProgress() {
+        if (progressDialog.isShowing()) {
+            progressDialog.dismiss();
+            progressDialog.cancel();
+        }
+    }
+
+    @Override
+    public void createAccount() {
+        if (!validate()) {
+            return;
+        }
+        user.setAcct(etUsername.getText().toString());
+        user.setPw(etPassword.getText().toString());
+        user.setCreating("t");//This is what hacker news guys accept to create account
+
+        presenter.createAccount(user);
     }
 
     @Override
     public void onLoginSuccessful(User user) {
+        SharedPreferenceUtils.getInstance().saveData(Constants.BUNDLE_KEYS.USER_LOGIN_STATUS, true);
+        hideProgress();
         gotoActivity(HomeActivity.newIntent(this));
+        finish();
     }
+
 
     private void gotoActivity(Intent intent) {
         startActivity(intent);
     }
 
     @Override
-    public void onLoginFailed(String message) {
-        // TODO: 28/10/17
+    public void showMessage(String message, int colourResourceId) {
+        super.showMessage(message, colourResourceId);
     }
 
     private boolean validate() {
@@ -125,27 +168,18 @@ public class LoginActivity extends BaseActivity implements ILoginContract.View {
 
     @OnClick(R.id.btn_login)
     public void onLoginButtonClicked() {
-        /*if (!validate()) {
-            return;
-        }
-
-        login();*/
-        Firebase.setAndroidContext(this);
-        Firebase firebase = new Firebase("https://hacker-news.firebaseio.com/v0");
-        firebase.child("item/15573928").addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                            snapshot.getKey();
-                        }
-
-                    }
-
-                    @Override
-                    public void onCancelled(FirebaseError firebaseError) {
-
-                    }
-                });
-        onLoginSuccessful(new User());
+        login();
     }
+
+    @OnClick(R.id.btn_register)
+    public void onRegisterButtonClicked() {
+        createAccount();
+    }
+
+    @Override
+    public Context getContext() {
+        return this;
+    }
+
+
 }

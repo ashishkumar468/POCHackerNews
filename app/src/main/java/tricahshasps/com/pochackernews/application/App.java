@@ -6,6 +6,10 @@ import android.content.Context;
 import com.firebase.client.Firebase;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
+import com.squareup.otto.Bus;
+
+import tricahshasps.com.pochackernews.application.communication.BusProvider;
+import tricahshasps.com.pochackernews.application.communication.EventManager;
 
 /**
  * Created by Ashish on 28/10/17.
@@ -15,11 +19,13 @@ public class App extends Application {
     /**
      *
      */
-
     private RefWatcher refWatcher;
     private static Context context;
 
     private static Firebase firebaseClientRef;
+
+    private EventManager mManager;
+    private Bus mBus = BusProvider.getInstance();
 
     public static RefWatcher getRefWatcher(Context context) {
         App application = (App) context.getApplicationContext();
@@ -47,7 +53,14 @@ public class App extends Application {
     }
 
     private void init() {
+        initCommunication();
         initFirebaseClient();
+    }
+
+    private void initCommunication() {
+        mManager = new EventManager(mBus);
+        mBus.register(mManager);
+        mBus.register(this);
     }
 
     private void initFirebaseClient() {

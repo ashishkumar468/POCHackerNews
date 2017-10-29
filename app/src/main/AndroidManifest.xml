@@ -13,22 +13,21 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-
-        <activity
-            android:name=".onboarding.LoginActivity"
-            android:screenOrientation="portrait">
-
-
-        </activity>
-
-        <activity
-            android:name=".home.HomeActivity"
-            android:screenOrientation="portrait">
+        <activity android:name=".application.LauncherActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"></action>
                 <category android:name="android.intent.category.LAUNCHER"></category>
             </intent-filter>
         </activity>
+
+
+        <activity
+            android:name=".onboarding.LoginActivity"
+            android:screenOrientation="portrait"></activity>
+
+        <activity
+            android:name=".home.HomeActivity"
+            android:screenOrientation="portrait"></activity>
 
         <activity
             android:name=".home.StoryDetailsActivity"

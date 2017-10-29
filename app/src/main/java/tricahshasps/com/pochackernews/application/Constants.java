@@ -27,6 +27,7 @@ public class Constants {
         public static final String STORY_ID = "storyId";
         public static final String STORY = "story";
         public static final String STORY_BUNDLE = "storyBundle";
+        public static final String USER_LOGIN_STATUS = "userLoginStatus";
     }
 
     public class ITEM_STATUS {
