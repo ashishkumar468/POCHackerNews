@@ -1,5 +1,9 @@
 package tricahshasps.com.pochackernews.home.presenters;
 
+import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Looper;
+
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -31,6 +35,8 @@ public class StoriesPresenter implements BasePresenter<IStoryContract.View>, ISt
 
     private List<Story> stories;
 
+    private Story story;
+
     public StoriesPresenter() {
         firebaseClientRef = App.getFirebaseClientRef();
         stories = new ArrayList<>();
@@ -59,54 +65,92 @@ public class StoriesPresenter implements BasePresenter<IStoryContract.View>, ISt
                 child = firebaseClientRef.child(ApiConstants.STORIES.BEST_STORIES);
                 break;
         }
-        child.addValueEventListener(new ValueEventListener() {
+
+        new AsyncTask<Void, Void, Void>() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Iterable<DataSnapshot> children = dataSnapshot.getChildren();
-                for (DataSnapshot snapshot : children) {
-                    Story story = new Story();
-                    story.setId((Long) snapshot.getValue());
-                    stories.add(story);
-                }
-                if (view != null)
-                    view.showStories(stories);
+            protected Void doInBackground(Void... voids) {
+                child.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        Iterable<DataSnapshot> children = dataSnapshot.getChildren();
+                        for (DataSnapshot snapshot : children) {
+                            Story story = new Story();
+                            story.setId((Long) snapshot.getValue());
+                            stories.add(story);
+                        }
+
+                        new Handler(Looper.getMainLooper()).post(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (view != null)
+                                    view.showStories(stories);
+                            }
+                        });
+
+                    }
+
+                    @Override
+                    public void onCancelled(final FirebaseError firebaseError) {
+                        new Handler(Looper.getMainLooper()).post(new Runnable() {
+                            @Override
+                            public void run() {
+                                view.showFailureState(firebaseError.getMessage());
+                            }
+                        });
+                    }
+                });
+                return null;
             }
+        }.execute();
 
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-                view.showFailureState(firebaseError.getMessage());
-            }
-
-
-        });
     }
 
     @Override
     public void getStory(final long storyId) {
-        firebaseClientRef.child(ApiConstants.STORIES.GET_ITEM + "/" + storyId)
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        String storyString = new Gson().toJson(dataSnapshot.getValue());
-                        Story value = new Gson().fromJson(storyString, Story.class);
-                        value.setStatus(Constants.ITEM_STATUS.FETCHED);
-                        if (view != null) {
-                            view.showStory(value);
-                            Logger.logError(storyString);
-                        }
-                    }
 
-                    @Override
-                    public void onCancelled(FirebaseError firebaseError) {
-                        //Let ui decide what to do with failed data items, i am just gonna let it know
-                        Story story = new Story();
-                        story.setId(storyId);
-                        story.setStatus(Constants.ITEM_STATUS.FAILED);
-                        if (view != null)
-                            view.showStory(story);
-                        Logger.logError(new Gson().toJson(story));
-                        story = null;
-                    }
-                });
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... voids) {
+                firebaseClientRef.child(ApiConstants.STORIES.GET_ITEM + "/" + storyId)
+                        .addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                final String storyString = new Gson().toJson(dataSnapshot.getValue());
+                                story = new Gson().fromJson(storyString, Story.class);
+                                story.setStatus(Constants.ITEM_STATUS.FETCHED);
+                                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        if (view != null) {
+                                            view.showStory(story);
+                                            Logger.logError(storyString);
+                                        }
+                                    }
+                                });
+
+                            }
+
+                            @Override
+                            public void onCancelled(FirebaseError firebaseError) {
+                                //Let ui decide what to do with failed data items, i am just gonna let it know
+                                story = new Story();
+                                story.setId(storyId);
+                                story.setStatus(Constants.ITEM_STATUS.FAILED);
+                                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        if (view != null)
+                                            view.showStory(story);
+                                        Logger.logError(new Gson().toJson(story));
+                                        story = null;
+                                    }
+                                });
+
+                            }
+                        });
+                return null;
+            }
+        }.execute();
+
     }
 }

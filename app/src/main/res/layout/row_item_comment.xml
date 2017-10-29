@@ -12,12 +12,17 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/tv_title"
+            android:id="@+id/tv_author_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="@dimen/default_text_view_padding"
-            android:textStyle="bold"
-            tools:text="Story title" />
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_timestamp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/default_text_view_padding" />
 
         <TextView
             android:id="@+id/tv_number_of_upvotes"
@@ -28,16 +33,12 @@
             tools:text="Number of upvotes" />
 
         <TextView
-            android:id="@+id/tv_author_name"
+            android:id="@+id/tv_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/default_text_view_padding" />
+            android:padding="@dimen/default_text_view_padding"
+            tools:text="Comment text" />
 
-        <TextView
-            android:id="@+id/tv_timestamp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/default_text_view_padding" />
 
         <View
             android:layout_width="match_parent"

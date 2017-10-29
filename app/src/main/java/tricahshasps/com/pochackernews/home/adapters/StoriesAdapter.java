@@ -82,7 +82,7 @@ public class StoriesAdapter extends RecyclerView.Adapter<StoriesAdapter.StoriesV
         @BindView(R.id.ll_container_story)
         LinearLayout llContainerStory;
 
-        @BindView(R.id.tv_title)
+        @BindView(R.id.tv_text)
         TextView tvTitle;
 
         @BindView(R.id.tv_number_of_comments)

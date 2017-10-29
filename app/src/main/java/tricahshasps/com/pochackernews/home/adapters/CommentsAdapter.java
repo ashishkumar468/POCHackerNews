@@ -79,7 +79,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
         @BindView(R.id.ll_container_comment)
         LinearLayout llContainerComment;
 
-        @BindView(R.id.tv_title)
+        @BindView(R.id.tv_text)
         TextView tvTitle;
 
         @BindView(R.id.tv_number_of_upvotes)
@@ -112,7 +112,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
                 case Constants.ITEM_STATUS.FETCHED:
                     llContainerComment.setBackgroundColor(context.getResources().getColor(R.color.color_fetched));
                     //When comment is fetched..show its data
-                    tvTitle.setText(comment.getTitle());
+                    tvTitle.setText(comment.getText());
                     tvNumberOfUpVotes.setText(context.getString(R.string.number_of_upvotes, comment.getNumberOfUpvotes()));
                     tvTimestamp.setText(DateUtils.getHumanReadableDate(comment.getTime()));
                     tvAuthorName.setText(context.getString(R.string.author_name, comment.getAuthorName()));
@@ -125,7 +125,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
                                 comments.addAll(position + 1, comment.getKids());
                                 //Setting comments level so in the model class so as to form a branch kind of thing
                                 Logger.logError("Adding kids of level " + comment.getKids().get(0).getLevel());
-                                notifyItemRangeInserted(position + 1, comment.getKids().size() );
+                                notifyItemRangeInserted(position + 1, comment.getKids().size());
                             }
                         };
                         handler.post(r);

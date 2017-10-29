@@ -1,5 +1,9 @@
 package tricahshasps.com.pochackernews.home.presenters;
 
+import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Looper;
+
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -22,6 +26,8 @@ public class CommentsPresenter implements BasePresenter<ICommentsContract.View>,
     private final Firebase firebaseClientRef;
     private ICommentsContract.View view;
 
+    private Story comment;
+
     public CommentsPresenter() {
         firebaseClientRef = App.getFirebaseClientRef();
     }
@@ -39,28 +45,42 @@ public class CommentsPresenter implements BasePresenter<ICommentsContract.View>,
     @Override
     public void fetchComment(final long commentId) {
         Logger.logError("fetching for comment " + commentId);
-        firebaseClientRef.child(ApiConstants.STORIES.GET_ITEM + "/" + commentId)
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        String commentString = new Gson().toJson(dataSnapshot.getValue());
-                        tricahshasps.com.pochackernews.utils.Logger.logError(commentString);
-                        Story value = new Gson().fromJson(commentString, Story.class);
-                        value.setStatus(Constants.ITEM_STATUS.FETCHED);
-                        if (view != null) {
-                            view.showComment(value);
-                        }
-                    }
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... voids) {
+                firebaseClientRef.child(ApiConstants.STORIES.GET_ITEM + "/" + commentId)
+                        .addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                String commentString = new Gson().toJson(dataSnapshot.getValue());
+                                tricahshasps.com.pochackernews.utils.Logger.logError(commentString);
+                                comment = new Gson().fromJson(commentString, Story.class);
+                                comment.setStatus(Constants.ITEM_STATUS.FETCHED);
+                                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        view.showComment(comment);
+                                    }
+                                });
+                            }
 
-                    @Override
-                    public void onCancelled(FirebaseError firebaseError) {
-                        Story comment = new Story();
-                        comment.setId(commentId);
-                        comment.setStatus(Constants.ITEM_STATUS.FAILED);
-                        view.showComment(comment);
-                        comment = null;
-                        Logger.logError("Could not fetch for comment id " + commentId);
-                    }
-                });
+                            @Override
+                            public void onCancelled(FirebaseError firebaseError) {
+                                comment = new Story();
+                                comment.setId(commentId);
+                                comment.setStatus(Constants.ITEM_STATUS.FAILED);
+                                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        view.showComment(comment);
+                                    }
+                                });
+                                Logger.logError("Could not fetch for comment id " + commentId);
+                            }
+                        });
+                return null;
+            }
+        }.execute();
+
     }
 }
