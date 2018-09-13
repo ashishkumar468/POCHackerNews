@@ -1,10 +1,10 @@
 # POCHackerNews
 This project is meant to do a poc on HackerNews api
 
-| [<img src="https://avatars1.githubusercontent.com/u/3611199?v=4" width="100px;"/><br /><sub><b>misaochan</b></sub>](https://github.com/CarlosMChica) | 
-| [<img src="https://avatars2.githubusercontent.com/u/30430?v=4" width="100px;"/><br /><sub><b>yuvipanda</b></sub>](https://github.com/CarlosMChica) | 
-| [<img src="https://avatars1.githubusercontent.com/u/3127881?v=4" width="100px;"/><br /><sub><b>neslihanturan</b></sub>](https://github.com/CarlosMChica) | 
-| [<img src="https://avatars2.githubusercontent.com/u/3069373?v=4" width="100px;"/><br /><sub><b>maskaravivek</b></sub>](https://github.com/CarlosMChica) | 
+| [<img src="https://avatars1.githubusercontent.com/u/3611199?v=4" width="100px;"/><br /><sub><b>misaochan</b></sub>](https://github.com/CarlosMChica)
+| [<img src="https://avatars2.githubusercontent.com/u/30430?v=4" width="100px;"/><br /><sub><b>yuvipanda</b></sub>](https://github.com/CarlosMChica)
+| [<img src="https://avatars1.githubusercontent.com/u/3127881?v=4" width="100px;"/><br /><sub><b>neslihanturan</b></sub>](https://github.com/CarlosMChica)
+| [<img src="https://avatars2.githubusercontent.com/u/3069373?v=4" width="100px;"/><br /><sub><b>maskaravivek</b></sub>](https://github.com/CarlosMChica)
 | [<img src="https://avatars3.githubusercontent.com/u/24829418?v=4" width="100px;"/><br /><sub><b>translatewiki</b></sub>](https://github.com/CarlosMChica) | 
 | [<img src="https://avatars1.githubusercontent.com/u/99590?v=4" width="100px;"/><br /><sub><b>nicolas-raoul</b></sub>](https://github.com/CarlosMChica) | 
 | [<img src="https://avatars0.githubusercontent.com/u/407647?v=4" width="100px;"/><br /><sub><b>psh</b></sub>](https://github.com/CarlosMChica) | 
